@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  rundeck:
+    build:
+      context: ./rundeck
+      args:
+        - RUNDECK_IMAGE=rundeck/rundeck:SNAPSHOT
+    tty: true
+    volumes:
+      - ${PWD}/rundeck/ansible:/home/rundeck/ansible
+      - ${PWD}/data/id_rsa:/home/rundeck/.ssh/id_rsa
+      - ${PWD}/data/id_rsa.pub:/home/rundeck/.ssh/id_rsa.pub
+    ports:
+      - 4441:4440
+    links:
+      - linux-1
+      - linux-2
+      - linux-3
+      - linux-4
+    environment:
+      - RUNDECK_GRAILS_URL=http://localhost:4441
+  rundeck-ops:
+    build:
+      context: rundeck-ops
+    links:
+      - rundeck
+    environment:
+      - RUNDECK_URL=http://localhost:4441
+      - RUNDECK_NODE_URL=http://rundeck:4440
+      - RUNDECK_USER=admin
+      - RUNDECK_PASSWORD=admin
+      # import projects
+      - CONFIG_SCRIPT_POSTSTART=scripts/import_project.sh
+    volumes:
+      - ${PWD}/projects:/projects
+      - ${PWD}/storage:/storage
+  linux-1:
+    build:
+      context: ./ssh
+    ports:
+      - "22"
+    volumes:
+      - ${PWD}/data/id_rsa:/configuration/id_rsa
+      - ${PWD}/data/id_rsa.pub:/configuration/id_rsa.pub
+  linux-2:
+    build:
+      context: ./ssh
+    ports:
+      - "22"
+    volumes:
+      - ${PWD}/data/id_rsa:/configuration/id_rsa
+      - ${PWD}/data/id_rsa.pub:/configuration/id_rsa.pub
+  linux-3:
+    build:
+      context: ./ssh
+    ports:
+      - "22"
+  linux-4:
+    build:
+      context: ./ssh
+    ports:
+      - "22"

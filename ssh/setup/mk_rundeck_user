@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+
+
+mkdir $HOME/.ssh
+chmod 755 $HOME/.ssh
+chown -R $USERNAME $HOME/.ssh

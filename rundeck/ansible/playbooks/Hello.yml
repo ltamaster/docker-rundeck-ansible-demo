@@ -1,0 +1,8 @@
+---
+- name: Hello Ansible - quick start
+  hosts: all
+  tasks:
+    - name: Hello server
+      shell: echo "Buenos dias {{message_name}}"
+      register: out
+    - debug: var=out.stdout_lines

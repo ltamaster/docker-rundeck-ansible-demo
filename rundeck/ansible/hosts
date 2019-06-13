@@ -1,0 +1,13 @@
+
+[sshkeys]
+linux-1 ansible_host=linux-1 ansible_port=22
+linux-2 ansible_host=linux-2 ansible_port=22
+
+
+[sshpass]
+linux-3 ansible_host=linux-3 ansible_port=22
+linux-4 ansible_host=linux-4 ansible_port=22
+
+
+#[windows]
+#ADServer  ansible_host=ec2-35-163-132-158.us-west-2.compute.amazonaws.com
