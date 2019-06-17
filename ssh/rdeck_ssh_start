@@ -17,3 +17,13 @@ if [[ -f "$CONTAINER_CONFIG_DIR"/id_rsa.pub ]]; then
 fi
 
 exec /usr/sbin/sshd -oPort="$SSHD_PORT" -e -D
+
+ClientAliveInterval 10
+ClientAliveCountMax 30
+
+sudo sed -i "s/.*MaxSessions.*/MaxSessions 100/g" /etc/ssh/sshd_config
+sudo sed -i "s/.*MaxStartups.*/MaxStartups 30:60:100/g" /etc/ssh/sshd_config
+sudo sed -i "s/.*ClientAliveInterval.*/ClientAliveInterval 0/g" /etc/ssh/sshd_config
+sudo sed -i "s/.*ClientAliveCountMax.*/ClientAliveCountMax 10/g" /etc/ssh/sshd_config
+
+sudo cat /etc/ssh/sshd_config | grep -e MaxSessions -e MaxStartups -e ClientAliveInterval -e ClientAliveCountMax

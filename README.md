@@ -14,10 +14,22 @@ The password is encrypted on the group_vars file (sshpass.yaml). The encrypted k
 
 ## About generating group_vars file with an encrypted password
 
+
+* prompting the password
+
+```
+ansible-vault encrypt_string 'rundeck' --name 'ansible_ssh_pass'
+New Vault password: 
+```
+
+* or Using master password file
 ```
 ansible-vault encrypt_string --vault-password-file /home/rundeck/ansible/group_vars/masterPassword.txt 'rundeck' --name 'ansible_ssh_pass'
 
 ```
+
+further information: https://docs.ansible.com/ansible/latest/user_guide/vault.html
+
 
 Copy the result to `/home/rundeck/ansible/group_vars/sshpass.yml` file
 
@@ -31,7 +43,6 @@ ansible-password: !vault |
           3063
           
 ```
-
 
 ![screenshot1](screenshots/screenshot1.png)
 
